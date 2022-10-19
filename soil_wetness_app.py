@@ -30,8 +30,86 @@ wetness = pd.DataFrame(c.fetchall(),columns=['county_fips_id','Name','YEAR','Jan
 finaldf = wetness
 
 
+#lines 35-110 prepare and clean the data for time series analysis
+
+wetness['YEAR'] = wetness['YEAR'].astype('str')
 
 
+wetness['Month'] = '1'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Jandf = wetness[["January",'Date','Name']]
+Jandf = Jandf.rename(columns={'January':'Value'})
+
+wetness['Month'] = '2'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Febdf = wetness[["February",'Date','Name']]
+Febdf = Febdf.rename(columns={'February':'Value'})
+
+wetness['Month'] = '3'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Mardf = wetness[["March",'Date','Name']]
+Mardf = Mardf.rename(columns={'March':'Value'})
+
+wetness['Month'] = '4'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Aprdf = wetness[["April",'Date','Name']]
+Aprdf = Aprdf.rename(columns={'April':'Value'})
+
+wetness['Month'] = '5'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Maydf = wetness[["May",'Date','Name']]
+Maydf = Maydf.rename(columns={'May':'Value'})
+
+wetness['Month'] = '6'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Jundf = wetness[["June",'Date','Name']]
+Jundf = Jundf.rename(columns={'June':'Value'})
+
+wetness['Month'] = '7'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Juldf = wetness[["July",'Date','Name']]
+Juldf = Juldf.rename(columns={'July':'Value'})
+
+wetness['Month'] = '8'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Augdf = wetness[["August",'Date','Name']]
+Augdf = Augdf.rename(columns={'August':'Value'})
+
+wetness['Month'] = '9'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Sepdf = wetness[["September",'Date','Name']]
+Sepdf = Sepdf.rename(columns={'September':'Value'})
+
+wetness['Month'] = '10'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month', 'Day']],format = '%Y-%m')
+Octdf = wetness[["October",'Date','Name']]
+Octdf = Octdf.rename(columns={'October':'Value'})
+
+wetness['Month'] = '11'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Novdf = wetness[["November",'Date','Name']]
+Novdf = Novdf.rename(columns={'November':'Value'})
+
+wetness['Month'] = '12'
+wetness['Day'] = '1'
+wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
+Decdf = wetness[["December",'Date','Name']]
+Decdf = Decdf.rename(columns={'December':'Value'})
+
+timesdf = pd.concat([Jandf,Febdf,Mardf,Aprdf,Maydf,Jundf,Juldf,Augdf,Sepdf,Octdf,Novdf,Decdf])
+
+wetness['Year'] = pd.DatetimeIndex(wetness['Date']).year
 
 
 #lines 35-51 create the header and sidebar for the streamlit app
@@ -74,9 +152,9 @@ with tab1:
 
     #this if statement creates a plot on the map is the user chooses to see the annual average soil wetness rather than monthly values
     if (month == 'Annual Average'):
-        df =combineddf[['county_fips_id', 'Name','YEAR','Annual Average','geometry' ]]
+        df =combineddf[['county_fips_id', 'Name','Year','Annual Average','geometry' ]]
        
-        df = df[df['YEAR']==time]
+        df = df[df['Year']==time]
         st.write('You chose Annual Average')
         
         st.write('Hover your cursor over the county you want to see the Surface Soil Wetness value for.')
@@ -113,7 +191,7 @@ with tab1:
                        tooltip=folium.features.GeoJsonTooltip(
                            fields=['Name',
                                    'Annual Average',
-                                   'YEAR'],
+                                   'Year'],
                            aliases=["Name:",
                                     'Annual Average:',
                                     'Year:'], 
@@ -141,9 +219,9 @@ with tab1:
     else:
         
         
-        df = combineddf[['COUNTYFP','YEAR','January','February', 'March', 'April','May','June','July','August','September','October','November','December','Name','geometry']]
-        df =df[df['YEAR']==time]
-        df =df.loc[:,('COUNTYFP','YEAR',month,"Name",'geometry')]
+        df = combineddf[['COUNTYFP','Year','January','February', 'March', 'April','May','June','July','August','September','October','November','December','Name','geometry']]
+        df =df[df['Year']==time]
+        df =df.loc[:,('COUNTYFP','Year',month,"Name",'geometry')]
 
         st.write('You chose', month)
         
@@ -186,7 +264,7 @@ with tab1:
                        tooltip=folium.features.GeoJsonTooltip(
                            fields=['Name',
                                    month,
-                                   'YEAR'],
+                                   'Year'],
                            aliases=["Name:",
                                     'Soil Wetness Value:',
                                     'Year:'], 
@@ -276,83 +354,7 @@ with tab2:
      'Sonoma',
      'Mariposa',
      'Merced'))
-    #lines 273-348 prepare and clean the data for time series analysis
-    wetness['YEAR'] = wetness['YEAR'].astype('str')
-
-
-    wetness['Month'] = '1'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Jandf = wetness[["January",'Date','Name']]
-    Jandf = Jandf.rename(columns={'January':'Value'})
-
-    wetness['Month'] = '2'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Febdf = wetness[["February",'Date','Name']]
-    Febdf = Febdf.rename(columns={'February':'Value'})
-
-    wetness['Month'] = '3'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Mardf = wetness[["March",'Date','Name']]
-    Mardf = Mardf.rename(columns={'March':'Value'})
-
-    wetness['Month'] = '4'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Aprdf = wetness[["April",'Date','Name']]
-    Aprdf = Aprdf.rename(columns={'April':'Value'})
-
-    wetness['Month'] = '5'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Maydf = wetness[["May",'Date','Name']]
-    Maydf = Maydf.rename(columns={'May':'Value'})
-
-    wetness['Month'] = '6'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Jundf = wetness[["June",'Date','Name']]
-    Jundf = Jundf.rename(columns={'June':'Value'})
-
-    wetness['Month'] = '7'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Juldf = wetness[["July",'Date','Name']]
-    Juldf = Juldf.rename(columns={'July':'Value'})
-
-    wetness['Month'] = '8'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Augdf = wetness[["August",'Date','Name']]
-    Augdf = Augdf.rename(columns={'August':'Value'})
-
-    wetness['Month'] = '9'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Sepdf = wetness[["September",'Date','Name']]
-    Sepdf = Sepdf.rename(columns={'September':'Value'})
-
-    wetness['Month'] = '10'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month', 'Day']],format = '%Y-%m')
-    Octdf = wetness[["October",'Date','Name']]
-    Octdf = Octdf.rename(columns={'October':'Value'})
-
-    wetness['Month'] = '11'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Novdf = wetness[["November",'Date','Name']]
-    Novdf = Novdf.rename(columns={'November':'Value'})
-
-    wetness['Month'] = '12'
-    wetness['Day'] = '1'
-    wetness['Date'] = pd.to_datetime(wetness[['YEAR','Month','Day']], format = '%Y-%m')
-    Decdf = wetness[["December",'Date','Name']]
-    Decdf = Decdf.rename(columns={'December':'Value'})
-
-    timesdf = pd.concat([Jandf,Febdf,Mardf,Aprdf,Maydf,Jundf,Juldf,Augdf,Sepdf,Octdf,Novdf,Decdf])
+    
     
     #lines 351-361 create a time series analysis using sesonal decompose and a multiplicative model
     from statsmodels.tsa.seasonal import seasonal_decompose
