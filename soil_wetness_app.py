@@ -21,7 +21,7 @@ c.execute('''
 SELECT * 
 FROM soil_wetness
           ''')
-wetness = pd.DataFrame(c.fetchall(),columns=['YEAR','January','February', 'March', 'April','May','June','July','August','September','October','November','December','Annual Average','Name'])
+wetness = pd.DataFrame(c.fetchall(),columns=['YEAR','January','February', 'March', 'April','May','June','July','August','September','October','November','December','Annual Average','Name','CountyFP'])
 wetness.head()
 #this query is selecting all the columns from the counties table from the database and into a data frame 
 c.execute('''  
