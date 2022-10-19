@@ -35,13 +35,10 @@ countydf = pd.DataFrame(c.fetchall(),columns=['county_fips_id','county_name'])
 st.header("Surface Soil Wetness in California by County")
 with st.sidebar:
     
-    st.markdown("**GitHub**")
-    st.write('Check out the code at our Github page [here](https://github.com/jchaghouri/soil_wetness_california)')
-    
     st.markdown("**Data:**")
     
     st.write("***Surface Soil Wetness***")
-    st.write("The data we collected for analysis was the Monthy & Annual Surface Soil Wetness from the NASA POWER data set. The soil wetness value represents the percent of soil moisture. A value of 0 indicates a completey water-free soil and a value of 1 indicated a completely saturated soil; where surface is the layer from the surface 0cm to 5cm below grade.")
+    st.write("The data collected for anysis was the Monthy & Annual Surface Soil Wetness data from the NASA POWER data set. The represents the percent of soil moisture, a value of 0 indicates a completey water-free soil and a value of 1 indicated a completely saturated soil; where surface is the layer from the surface 0cm to 5cm below grade.")
     
     st.write("***Time Data***")
     st.write("The data we collected is from 2011 to 2021. This is in monthly values as well as annual values that represent the average soil wetness percent between all of the months in that year.")
@@ -53,8 +50,6 @@ with st.sidebar:
     st.write("The data was obtained from the National Aeronautics and Space Administration (NASA) Langley Research Center (LaRC) Prediction of Worldwide Energy Resource (POWER) Project funded through the NASA Earth Science/Applied Science Program.")
     st.write("The data was obtained from the POWER Project's Monthly and Annually 2.3.12 version on 2022/09/20.")
 
-   
-    
 #lines 54-56 combine the county, soilwetness, and geodata into one merged data frame, that includes all wetness values, all geometry data, and all county names with ID numbers
 finaldf = countydf.merge(wetness,left_on='county_name',right_on='Name', how='outer')
 geodata = gpd.read_file('county_ca.geojson')
