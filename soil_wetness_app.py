@@ -146,10 +146,10 @@ tab1, tab2 = st.tabs(["Map Visualization", "Time Series Analysis"])
 #lines 
 with tab1:
     #lines 64-66 creates a select box for the user to choose a year and month for the map visualization 
-    time = st.selectbox('Choose a year:', (2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021))
+    time = st.slider('Choose a year:', 2011,2021,2011)
     st.write('The year is ', time)
-    month = st.selectbox('Choose a month or the annual average:', ('Annual Average','January','February', 'March', 'April','May','June','July','August','September','October','November','December'))
-
+   # time = str(time)
+    month = st.select_slider('Choose a month or the annual average:', options= ['Annual Average','January','February', 'March', 'April','May','June','July','August','September','October','November','December'])
     #this if statement creates a plot on the map is the user chooses to see the annual average soil wetness rather than monthly values
     if (month == 'Annual Average'):
         df =combineddf[['county_fips_id', 'Name','Year','Annual Average','geometry' ]]
@@ -195,7 +195,7 @@ with tab1:
                            aliases=["Name:",
                                     'Annual Average:',
                                     'Year:'], 
-                           localize=True,
+                           localize=False,
                            sticky=False,
                            labels=True,
                            style="""
@@ -390,3 +390,9 @@ with tab2:
     fig.set_size_inches((10,10))
     fig.tight_layout()
     st.pyplot(fig)
+    
+    
+    
+    
+    
+
