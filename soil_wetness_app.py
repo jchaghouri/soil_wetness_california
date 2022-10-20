@@ -122,7 +122,7 @@ with st.sidebar:
     st.markdown("**Data:**")
     
     st.write("***Surface Soil Wetness***")
-    st.write("The data we collected for analysis was the Monthy & Annual Surface Soil Wetness from the NASA POWER data set. The soil wetness value represents the percent of soil moisture. A value of 0 indicates a completey water-free soil and a value of 1 indicated a completely saturated soil; where surface is the layer from the surface 0cm to 5cm below grade.")
+    st.write("The data we collected for analysis was the Monthy & Annual Surface Soil Wetness from the NASA POWER data set. The soil wetness value represents the percent of soil moisture. A value of 0 indicates a completey water-free soil and a value of 1 indicates a completely saturated soil; where surface is the layer from the surface 0cm to 5cm below grade.")
     
     st.write("***Time Data***")
     st.write("The data we collected is from 2011 to 2021. This is in monthly values as well as annual values that represent the average soil wetness percent between all of the months in that year.")
@@ -268,7 +268,7 @@ with tab1:
                            aliases=["Name:",
                                     'Soil Wetness Value:',
                                     'Year:'], 
-                           localize=True,
+                           localize=False,
                            sticky=False,
                            labels=True,
                            style="""
@@ -290,10 +290,11 @@ with tab1:
 #everything below is for tab 2: time series analysis
 with tab2:
     #lines 208-212 describe all the parts of the times series analysis using sesonal decompose 
-    st.write("Displayed below is four different plots,Observed, Trend, Seasonal, and Residual. This time series analysis was done using ***seasonal_decompose*** in the *StatModel* package in Python. The model used for these plots is multiplicative.")
+    st.write("Displayed below is four different plots: Observed, Trend, Seasonal, and Residual.")
+    st.write('This time series analysis was done using ***seasonal_decompose*** in the *StatModel* package in Python. The model used for these plots is multiplicative.')
     st.write("***Observed***: This plot displays the Surface Soil Wetness for your chosen county with years on the x-axis and wetness value on the y-axis.")
     st.write("***Trend***: Shows a pattern in data that shows the movement of a series to relatively higher or lower values over a long period of time. In other words, a trend is observed when there is an increasing or decreasing slope in the time series. This is the integral of the ***Observed*** plot, so this shows the yearly wetness and whether it is going down or up from the previous year.")
-    st.write("***Seasonal***: This is the pattern of our data, in this case the seasonality plot for each county looks like a sine wave. This is because the rain season happens every November-February so the seasonal pattern is sinusoidal.")
+    st.write("***Seasonal***: To get the seasonal plot, we applied a multiplicative model to the data in the ***Observed*** plot. This is used to show its pattern and seasonality. In this case, the plot looks like a sinewave due to it following the pattern of the rain season which is around November-February of every year.")
     st.write("***Residual***: The residual is what is left. There are patterns that do not fit in the trend and they are put here in the remainder.")
     #creates a selection box for the user to select a county
     countyname =  st.selectbox('Choose a county:', ('Alameda',
